@@ -14,6 +14,14 @@
 | M6 锁库检查 | 执行并复核锁库检查 | `POST /api/locking` | `app/modules/locking/rules.py` | `tests/test_locking.py` |
 | M7 冻结归档 | 执行并复核冻结归档 | `POST /api/archive` | `app/modules/archive/rules.py` | `tests/test_archive.py` |
 
+## 重归属更正
+
+| 使用者动作 | 入口 | 核心文件 | 测试 |
+|---|---|---|---|
+| 裁决并执行编号互换更正 | `POST /api/runs/{run_id}/correction`、`GET /correction` | `app/correction.py` | `tests/test_correction.py` |
+
+裁决口径：仅更正凭证覆盖的访视单元，单元内首次记录与复检整体成对互换；凭证未覆盖的记录不动；不得新增受试者或访视。结果可锁库时事务化切换正式结果，重算失败或不可锁库时恢复旧版正式结果；同一更正重试批号不变。
+
 ## 陷阱登记
 
 | TRAP | 现象 | 朴素实现 | 本项目处理 | 处理位置 | 测试 |
@@ -29,6 +37,7 @@
 | TRAP-15 | 检验单位换算 | 静默错算或证据丢失 | 以可复核规则显式处理 | `app/modules/protocol/rules.py` | `tests/test_protocol.py::test_unit_conversion_real` |
 | TRAP-23 | 访视窗末端 | 静默错算或证据丢失 | 以可复核规则显式处理 | `app/modules/windows/rules.py` | `tests/test_windows.py::test_half_open_end` |
 | TRAP-11 | UTC日历归一 | 静默错算或证据丢失 | 以可复核规则显式处理 | `app/modules/windows/rules.py` | `tests/test_windows.py::test_utc_day_equivalence` |
+| TRAP-31 | 筛选号互换更正 | 整人互换改动无凭证历史，逐条改号拆散复检 | 凭证访视单元整体成对互换，失败恢复旧版正式结果 | `app/correction.py` | `tests/test_correction.py` |
 
 ## 对账规则
 

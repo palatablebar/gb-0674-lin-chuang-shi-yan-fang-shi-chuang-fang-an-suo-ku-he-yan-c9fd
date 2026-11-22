@@ -62,6 +62,14 @@
     "deviations": "偏离",
     "retest_issues": "复检问题",
     "blocked": "阻断项",
-    "status": "状态"
+    "status": "状态",
+    "original_subject": "原归属",
+    "old_subject": "旧归属",
+    "new_subject": "新归属",
+    "old_enrolled": "原入组基准",
+    "new_enrolled": "新入组基准",
+    "from_subject": "原受试者",
+    "to_subject": "新受试者",
+    "records": "凭证记录"
   }
 }

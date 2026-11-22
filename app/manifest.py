@@ -1,9 +1,13 @@
 import hashlib, json
 from datetime import datetime, timezone
 from app.config import RULE_VERSION
+from app.correction import identity
 
-def digest(raw, context):
-    return hashlib.sha256(raw + json.dumps(context,ensure_ascii=False,sort_keys=True).encode() + RULE_VERSION.encode()).hexdigest()
+def digest(raw, context, correction=None):
+    parts = raw + json.dumps(context, ensure_ascii=False, sort_keys=True).encode()
+    if correction:
+        parts += json.dumps(identity(correction), ensure_ascii=False, sort_keys=True).encode()
+    return hashlib.sha256(parts + RULE_VERSION.encode()).hexdigest()
 
 def make_manifest(source_digest, source, elapsed):
     return {'run_id':source_digest[:16], 'sha256':source_digest, 'rule_version':RULE_VERSION,
